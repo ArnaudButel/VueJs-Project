@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <div>Menu</div>
+    <div class="ui three item menu">
+      <a href="" class="item">Accueil</a>
+      <a href="" class="item">Mes listes</a>
+      <a href="" class="active item">Ma liste</a>
+    </div>
     <MaListe/>
   </div>
 </template>
@@ -23,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

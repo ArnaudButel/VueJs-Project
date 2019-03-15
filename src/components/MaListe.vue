@@ -41,14 +41,9 @@ export default {
     name: 'MaListe',
     data () {
         return {
-            counterID : 3,
             budget : 0,
             amount:0,
-            list: [
-                {id: 0, text:"Tomate", checked: false, price:0},
-                {id: 1, text:"Pomme", checked: false, price:0},
-                {id: 2, text:"Eau", checked: false, price:0}
-            ]
+            list: []
         }
     },
     methods: {
@@ -70,25 +65,25 @@ export default {
             });
         }
     },
+    mounted() {
+        this.list = JSON.parse(localStorage.getItem('productList')) || []
+    },
+    watch: {
+        list: {
+            handler () {
+                localStorage.setItem('productList', JSON.stringify(this.list))
+            },
+            deep: true
+        },
+    },
     computed: {
         itemName: {
             get() {
                 return ''
             },
             set(value) {
-                this.list.push({id: this.counterID, text: value, checked: false, price:0})
-                //let noOfItems = 0;
-                //if(localStorage.getItem("listCourses")) {
-                //    let noOfItems = Object.keys(localStorage.getItem("listCourses")).length;
-                //}
-                //let stock = {}
-                //stock[noOfItems] = {
-                //    text: value,
-                //    checked: false,
-                //    value: 0
-                //}
-                //localStorage.setItem("listCourses", stock)
-                this.counterID++
+                const newID = this.list.length+1
+                this.list.push({id: newID, text: value, checked: false, price:0})
             }
         }
     }
