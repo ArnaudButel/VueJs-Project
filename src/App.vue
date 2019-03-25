@@ -1,20 +1,21 @@
 <template>
   <div id="app">
     <NavBar/>
-    <MaListe/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import MaListe from './components/MaListe.vue'
 import NavBar from './NavBar.vue'
 
 export default {
   name: 'app',
   components: {
-    MaListe,
     NavBar
-  }
+  },
+  mounted() {
+    localStorage.setItem('productList', JSON.stringify({}))
+  },
 }
 </script>
 
@@ -25,5 +26,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.page {
+    margin-top: 30px!important;
 }
 </style>

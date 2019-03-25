@@ -8,9 +8,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'MaListe',
+      name: 'Home',
       component: () => import('@/components/Home')
       //component: MaListe
+    }, 
+    {
+      path: '/lists',
+      name: 'Mes Listes',
+      component: () => import('@/components/Lists')
+    }, 
+    {
+      path: '/list/:id',
+      name: 'Ma liste',
+      component: () => import('@/components/MaListe')
+    }, 
+    {
+      path: '/about',
+      name: 'A propos',
+      component: () => import('@/components/About')
     }, 
   ]
 })

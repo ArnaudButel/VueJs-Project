@@ -5,7 +5,6 @@
             <router-link to="/lists" class="item">Mes listes</router-link>
             <router-link to="/about" class="item">A propos</router-link>
         </div>
-        <router-view></router-view>
     </div>
 </template>
 

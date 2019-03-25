@@ -1,7 +1,7 @@
 <template>
-    <div class="ui middle aligned center aligned grid">
+    <div class="page ui middle aligned center aligned grid">
         <div class="column">
-                <h1 class="ui header ">Liste de course</h1>
+                <h1 class="ui header">Liste de course {{ this.listName }}</h1>
                 <div class="ui input focus">
                     <input v-model.lazy=itemName placeholder="produit">
                 </div>
@@ -41,6 +41,7 @@ export default {
     name: 'MaListe',
     data () {
         return {
+            listName: "",
             budget : 0,
             amount:0,
             list: []
@@ -66,15 +67,22 @@ export default {
         }
     },
     mounted() {
-        this.list = JSON.parse(localStorage.getItem('productList')) || []
+        this.list = JSON.parse(localStorage.getItem('productList-' + this.$route.params.id + '-products')) || []
+        this.budget = localStorage.getItem('productList-' + this.$route.params.id + '-budget') || 0
     },
     watch: {
         list: {
             handler () {
-                localStorage.setItem('productList', JSON.stringify(this.list))
+                localStorage.setItem('productList-' + this.$route.params.id + '-products', JSON.stringify(this.list))
             },
             deep: true
         },
+        budget: {
+            handler() {
+                localStorage.setItem('productList-' + this.$route.params.id + '-budget', this.budget)
+            },
+            deep: true
+        }
     },
     computed: {
         itemName: {
