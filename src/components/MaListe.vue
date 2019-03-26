@@ -3,7 +3,11 @@
         <div class="column">
                 <h1 class="ui header">Liste de course {{ this.listName }}</h1>
                 <div class="ui input focus">
-                    <input v-model.lazy=itemName placeholder="produit">
+                    <input v-model=itemName placeholder="produit" @keyup.enter="addItemList">
+                </div>
+
+                <div v-if="itemName !== ''"  class="ui list autocomplete">
+                    <div class="item" v-for="(item, index) in filteredList" :key="index" @click="addItemAutoComp(item)">{{ item }}</div>
                 </div>
         
                 <div class="ui relaxed list">
@@ -24,11 +28,13 @@
                     </div>
                 </div>
 
-                
-                <div class="ui right labeled input">
-                    <label for="budget">Budget </label>
+                <div class="ui left action input right labeled input">
+                    <div class="ui teal labeled icon button disabled">
+                        <i class="cart icon"></i>
+                        Budget
+                    </div>
                     <input class="ui mini icon input" id="budget" type="text" placeholder="Budget" v-model="budget">
-                    <label for="amount" class="ui label">€</label>
+                    <label for="amount" class="ui label ">€</label>
                 </div>
                 <p>Total : {{ amount }}</p>
                 <p class="ui attached icon error message" v-show="amount > budget">Attention budget dépassé !</p>
@@ -41,17 +47,32 @@ export default {
     name: 'MaListe',
     data () {
         return {
+            itemName: "",
             listName: "",
             budget : 0,
             amount:0,
-            list: []
+            list: [],
+            autoCompList : ["Bananes", "Chocolat", "Pommes", "Poulet", "Soda"]
         }
     },
     methods: {
+        autolist () {
+            const all = this.autoCompList.concat(this.items)
+            const list = all.filter(i => i.name.toLowerCase().includes(this.input.toLowerCase())).map(l => l.name)
+            return list.filter((value, i, self) => self.indexOf(value) === i)
+        },
+        addItemAutoComp(item) {
+            this.itemName = item
+        },
+        addItemList() {
+            const newID = this.list.length+1
+            this.list.push({id: newID, text: this.itemName, checked: false, price:0})
+            this.autoCompList.push(this.itemName)
+            this.itemName = ""
+        },
         delElmt(id) {
             this.list.forEach((elmt, index) => {
                 if(elmt.id === id) {
-                    //Vue.delete(this.list, index);
                     this.list.splice(index, 1)
                 }
             });
@@ -69,6 +90,7 @@ export default {
     mounted() {
         this.list = JSON.parse(localStorage.getItem('productList-' + this.$route.params.id + '-products')) || []
         this.budget = localStorage.getItem('productList-' + this.$route.params.id + '-budget') || 0
+        this.autoCompList = JSON.parse(localStorage.getItem('autoCompList')) || []
     },
     watch: {
         list: {
@@ -82,19 +104,21 @@ export default {
                 localStorage.setItem('productList-' + this.$route.params.id + '-budget', this.budget)
             },
             deep: true
+        },
+        autoCompList: {
+            handler() {
+                localStorage.setItem('autoCompList', JSON.stringify(this.autoCompList))
+            },
+            deep: true
         }
     },
     computed: {
-        itemName: {
-            get() {
-                return ''
-            },
-            set(value) {
-                const newID = this.list.length+1
-                this.list.push({id: newID, text: value, checked: false, price:0})
-            }
+        filteredList() {
+            return this.autoCompList.filter(list => {
+                return list.toLowerCase().includes(this.itemName.toLowerCase())
+            })
         }
-    }
+    },
 }
 </script>
 
@@ -122,5 +146,16 @@ ul {
     color: white;
     padding: 10px 0!important;
     border-radius: 5px;
+}
+.autocomplete {
+    cursor: pointer;
+    width: 200px;
+    margin: auto;
+    border: 1px #eee solid;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.autocomplete div:hover {
+    background-color: azure
 }
 </style>

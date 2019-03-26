@@ -1,8 +1,22 @@
 <template>
-    <div class="page">
+    <div class="page ui main text container">
         <h1 class="ui header">Accueil</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, laudantium! Fuga soluta vitae facere nesciunt ea, corporis saepe voluptate enim et iure architecto perferendis inventore libero distinctio sed, quasi veniam?</p>
-        <h2>Ma dernière liste</h2>
+        <div class="ui fluid placeholder">
+            <div class="paragraph">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div class="paragraph">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="ui hidden divider"></div>
+        <h2 class="ui header">Ma dernière liste</h2>
         <router-link class="list_link" :to="'list/'+productList.id">{{ productList.name }}</router-link>
     </div>
 </template>

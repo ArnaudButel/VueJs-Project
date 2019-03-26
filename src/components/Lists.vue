@@ -1,24 +1,23 @@
 <template>
-    <div class="page ui middle aligned center aligned grid">
-        <div class="column">
-            <h1 class="ui header">Mes listes</h1>
-            <div class="ui input focus">
-                <input v-model=itemSearch type="text" placeholder="Recherche">
-            </div>
-            
-            <div class="ui items">
-                <div class="item" v-for="item in filteredList" :key="item.id">
-                    <div class="middle aligned content">
-                        <router-link class="header" :to="'list/'+item.id" >{{ item.name }}</router-link>
-                    </div>
+    <div class="page ui main text container">
+        <h1 class="ui header">Mes listes</h1>
+        <div class="ui icon input">
+            <input v-model=itemSearch type="text" placeholder="Rechercher...">
+            <i class="search icon"></i>
+        </div>
+        
+        <div class="ui relaxed divided list listoflists">
+            <div class="item" v-for="item in filteredList" :key="item.id">
+                <div class="content">
+                    <router-link class="" :to="'list/'+item.id" >{{ item.name }}</router-link>
+                    <button class="ui red button supplist" @click="delList(item.id)">Supprimer</button>
                 </div>
             </div>
+        </div>
 
-
-            <div class="ui input focus">
-                <input @keyup.enter=addList v-model=newList type="text" placeholder="Nouvelle liste">
-                <button @click=addList >Ajouter</button>
-            </div>
+        <div class="ui right labeled input">
+            <input @keyup.enter=addList v-model=newList type="text" placeholder="Nouvelle liste">
+            <button @click=addList class="ui primary button">Ajouter</button>
         </div>
     </div>
 </template>
@@ -36,8 +35,17 @@ export default {
     methods: {
         addList() {
             const newID = this.listOfList.length+1
-            this.listOfList.push({ id: newID, name: this.newList })
+            this.listOfList.splice(0, 0, { id: newID, name: this.newList })
             this.newList = ""
+        },
+        delList(id) {
+            this.listOfList.forEach((elmt, index) => {
+                if(elmt.id === id) {
+                    this.listOfList.splice(index, 1)
+                    localStorage.removeItem('productList-' + id + '-products')
+                    localStorage.removeItem('productList-' + id + '-budget')
+                }
+            });
         }
     },
     computed: {
@@ -60,3 +68,14 @@ export default {
     },
 }
 </script>
+
+<style>
+.supplist {
+    float:right;
+}
+.listoflists {
+    min-height: 100px;
+    max-height: 400px;
+    overflow: auto;
+}
+</style>

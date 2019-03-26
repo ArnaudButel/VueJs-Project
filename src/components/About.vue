@@ -1,6 +1,19 @@
 <template>
-    <div class="page">
+    <div class="page ui main text container">
         <h1 class="ui header">A propos</h1>
-        <p>Bonjour !</p>
+        <div class="ui fluid placeholder">
+            <div class="paragraph">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div class="paragraph">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
     </div>
 </template>
