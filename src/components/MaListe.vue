@@ -52,7 +52,7 @@ export default {
             budget : 0,
             amount:0,
             list: [],
-            autoCompList : ["Bananes", "Chocolat", "Pommes", "Poulet", "Soda"]
+            autoCompList : []
         }
     },
     methods: {
@@ -67,7 +67,9 @@ export default {
         addItemList() {
             const newID = this.list.length+1
             this.list.push({id: newID, text: this.itemName, checked: false, price:0})
-            this.autoCompList.push(this.itemName)
+            if(! this.autoCompList.includes(this.itemName)) {
+                this.autoCompList.push(this.itemName)
+            }
             this.itemName = ""
         },
         delElmt(id) {
@@ -90,7 +92,7 @@ export default {
     mounted() {
         this.list = JSON.parse(localStorage.getItem('productList-' + this.$route.params.id + '-products')) || []
         this.budget = localStorage.getItem('productList-' + this.$route.params.id + '-budget') || 0
-        this.autoCompList = JSON.parse(localStorage.getItem('autoCompList')) || []
+        this.autoCompList = JSON.parse(localStorage.getItem('autoCompList')) || ["Bananes", "Chocolat", "Pommes", "Poulet", "Soda"]
     },
     watch: {
         list: {
