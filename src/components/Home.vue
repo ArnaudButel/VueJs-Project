@@ -1,6 +1,7 @@
 <template>
     <div class="page ui main text container">
         <h1 class="ui header">Accueil</h1>
+        <p>( Ceci n'est pas un chargement, c'est juste pour remplacer lorem ;) )</p>
         <div class="ui fluid placeholder">
             <div class="paragraph">
                 <div class="line"></div>
@@ -26,28 +27,12 @@ export default {
     name: 'lists',
     data () {
         return {
-            newList: "",
             productList: {}
-        }
-    },
-    methods: {
-        addList() {
-            const newID = this.list.length+1
-            this.list.push({ id: newID, name: this.newList })
-            this.newList = ""
         }
     },
     mounted() {
         let list = JSON.parse(localStorage.getItem('listOfList'))
-        this.productList = list.slice(-1)[0] || []
-    },
-    watch: {
-        list: {
-            handler () {
-                localStorage.setItem('listOfList', JSON.stringify(this.list))
-            },
-            deep: true
-        },
+        this.productList = list[0] || []
     },
 }
 </script>
